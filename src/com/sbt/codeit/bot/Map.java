@@ -2,7 +2,10 @@ package com.sbt.codeit.bot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Map {
   int n;
@@ -98,6 +101,15 @@ public class Map {
     // TODO
   }
 
-  
+  Direction whichWayToGoTo(Point start, Point end) {
+    HashMap<Point, Integer> distances = new HashMap<>();
+    Queue<Point> queue = new LinkedList<>();
+
+    queue.add(start);
+
+    // TODO
+
+    return null;
+  }
 
 }

@@ -55,16 +55,16 @@ public class Point {
     Direction result = null;
     if (this.x == o.x) {
       if (this.y > o.y) {
-        result = Direction.DOWN;
+        result = Direction.LEFT;
       } else {
-        result = Direction.UP;
+        result = Direction.RIGHT;
       }
     }
     if (this.y == o.y) {
       if (this.x > o.x) {
-        result = Direction.LEFT;
+        result = Direction.UP;
       } else {
-        result = Direction.RIGHT;
+        result = Direction.DOWN;
       }
     }
     if (this.equals(o)) {

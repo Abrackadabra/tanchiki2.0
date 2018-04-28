@@ -4,12 +4,16 @@ public class Bullet {
   Point p;
   Direction d;
 
+  Bullet(Point p) {
+    this.p = p;
+  }
+
   Bullet(Point p, Direction d) {
     this.p = p;
     this.d = d;
   }
-
-  Bullet(Point p) {
-    this.p = p;
+  
+  public boolean hasDirection() {
+    return d != null;
   }
 }

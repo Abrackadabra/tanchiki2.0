@@ -163,16 +163,14 @@ public class Map {
 
   private void extrapolate() {
     for (int i = 0; i < MAX_STEP; i++) {
-
+      //Map next = new Map()
     }
   }
 
   Map getExtrapolated(int index) {
     if (index < 0 || index >= MAX_STEP) {
-      return null;
+      throw new IndexOutOfBoundsException("Extrapolated map out of bound");
     }
     return next.get(index);
   }
-
-
 }

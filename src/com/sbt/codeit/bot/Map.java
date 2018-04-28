@@ -247,43 +247,43 @@ public class Map {
   }
 
   boolean isShoot(Bullet bullet, Boat enemy) {
-    int bulX = bullet.p.x;
-    int bulY = bullet.p.y;
-    int enX = enemy.p.x;
-    int enY = enemy.p.y;
-    if (enX == bulX && enY == bulY) return true;
-    switch (enemy.d) {
-      case LEFT:
-        enX--;
-        break;
-      case RIGHT:
-        enX++;
-        break;
-      case DOWN:
-        enY++;
-        break;
-      case UP:
-        enY--;
-        break;
-    }
+		int bulX = bullet.p.x;
+		int bulY = bullet.p.y;
+		int enX = enemy.p.x;
+		int enY = enemy.p.y;
+		if (enX == bulX && enY == bulY) return true;
+		switch (enemy.d) {
+			case LEFT:
+				enY--;
+				break;
+			case RIGHT:
+				enY++;
+				break;
+			case DOWN:
+				enX++;
+				break;
+			case UP:
+				enX--;
+				break;
+		}
 
-    switch (bullet.d) {
-      case LEFT:
-        bulX -= 2;
-        break;
-      case RIGHT:
-        bulX += 2;
-        break;
-      case DOWN:
-        bulY += 2;
-        break;
-      case UP:
-        bulY -= 2;
-        break;
-    }
-    if (enX == bulX && enY == bulY) return true;
-    return false;
-  }
+		switch (bullet.d) {
+			case LEFT:
+				bulY -= 2;
+				break;
+			case RIGHT:
+				bulY += 2;
+				break;
+			case DOWN:
+				bulX += 2;
+				break;
+			case UP:
+				bulX -= 2;
+				break;
+		}
+		if (enX == bulX && enY == bulY) return true;
+		return false;
+	}
 
   private boolean isOnMine(Point p, Boat boat) {
     return (p.x == boat.p.x && p.y == boat.p.y);

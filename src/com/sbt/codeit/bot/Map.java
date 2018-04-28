@@ -14,7 +14,7 @@ public class Map {
   public static int MAX_STEP = 100;
 
   boolean[][] walls;
-  List<Point> bullets = new ArrayList<>();
+  List<Bullet> bullets = new ArrayList<>();
   List<Point> heals = new ArrayList<>();
   List<Point> mines = new ArrayList<>();
   List<Map> next = new ArrayList<>();
@@ -26,6 +26,11 @@ public class Map {
   Point notMyBase;
   Point myBoat;
   Point notMyBoat;
+
+  public boolean isInside(Point p) {
+    return p.x >= 0 && p.x < n
+        && p.y >= 0 && p.y < m;
+  }
 
   public Map(ArrayList<ArrayList<Character>> map, Character baseId, Character id) {
 
@@ -46,7 +51,7 @@ public class Map {
         }
 
         if (c == '*') {
-          bullets.add(new Point(i, j));
+          bullets.add(new Bullet(new Point(i, j)));
         }
 
         if (c == id) {
@@ -81,8 +86,8 @@ public class Map {
         }
       }
     }
-    for (Point p : bullets) {
-      map[p.x][p.y] = '*';
+    for (Bullet b : bullets) {
+      map[b.p.x][b.p.y] = '*';
     }
     for (Point p : heals) {
       map[p.x][p.y] = 'H';
@@ -102,14 +107,9 @@ public class Map {
     return result;
   }
 
-  void detectBullets(Map prevMap) {
+  void detectEverything(Map prevMap) {
     // TODO
-    List<Bullet> result = new ArrayList<>();
-    for (Point p : bullets) {
-      for (Point pp : prevMap.bullets) {
 
-      }
-    }
   }
 
   Direction whichWayToGoTo(Point start, Point end) {

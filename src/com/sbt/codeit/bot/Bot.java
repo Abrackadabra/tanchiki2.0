@@ -8,6 +8,14 @@ import java.util.ArrayList;
 
 public class Bot implements ServerListener {
 
+  void info(Object... objects) {
+    System.out.print(myName + ": ");
+    for (Object object : objects) {
+      System.out.print(object.toString() + " ");
+    }
+    System.out.println();
+  }
+
   private GameController controller;
   private Character ourSymbol;
   private Character ourBaseSymbol;
@@ -27,6 +35,7 @@ public class Bot implements ServerListener {
   int tick = 0;
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
+    info("Start of tick", tick);
 
     controller.start(this); //начинаем ехать сразу и больше не останавливаемся
     if (tick % 10 == 0) {
@@ -35,11 +44,19 @@ public class Bot implements ServerListener {
     if (tick % 10 == 5) {
       controller.left(this); //поворачиваем направо
     }
-    controller.fire(this); //стреляем всегда, когда это возможно
+    if (tick % 10 == 7) {
+      controller.putMine(this);
+      info("put mine");
+    }
+    
 
+//    controller.fire(this); //стреляем всегда, когда это возможно
 
     tick++;
   }
+
+//  String myName = "Sberkek strikes back " + randomName();
+  String myName = "Sksb" + randomName();
 
   public String randomName() {
     String s = "";
@@ -50,7 +67,6 @@ public class Bot implements ServerListener {
   }
 
   public String getName() {
-//        return "Сберкек наносит ответный удар";
-    return "Sberkek strikes back " + randomName();
+    return myName;
   }
 }

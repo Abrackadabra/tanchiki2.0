@@ -114,11 +114,30 @@ public class Map {
 
   Direction whichWayToGoTo(Point start, Point end) {
     HashMap<Point, Integer> distances = new HashMap<>();
+    HashMap<Point, Direction> dirCameFrom = new HashMap<>();
     Queue<Point> queue = new LinkedList<>();
 
     queue.add(start);
+    distances.put(start, 0);
+    dirCameFrom.put(start, null);
 
-    // TODO
+    while (!queue.isEmpty()) {
+      Point p = queue.poll();
+      int d = distances.get(p);
+
+      for (Direction direction : Direction.values()) {
+        Point q = p.add(direction);
+
+        if (!isInside(q)) {
+          continue;
+        }
+
+        if (!distances.containsKey(q)) {
+          distances.put(q, d + 1);
+          dirCameFrom
+        }
+      }
+    }
 
     return null;
   }

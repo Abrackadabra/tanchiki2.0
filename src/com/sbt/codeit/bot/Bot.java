@@ -6,8 +6,6 @@ import com.sbt.codeit.core.control.ServerListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import org.pmw.tinylog.Logger;
-
 public class Bot implements ServerListener {
 
   private GameController controller;
@@ -37,11 +35,10 @@ public class Bot implements ServerListener {
     if (tick % 10 == 5) {
       controller.left(this); //поворачиваем направо
     }
-//    controller.fire(this); //стреляем всегда, когда это возможно
+    controller.fire(this); //стреляем всегда, когда это возможно
 
 
     tick++;
-    Logger.info("Tick " + tick);
   }
 
   public String randomName() {

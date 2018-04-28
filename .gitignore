@@ -1,7 +1,10 @@
 *~
 .DS_Store
 
-.idea
+#.idea
+inspectionProfiles/
+misc.xml
+workspace.xml
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Java template

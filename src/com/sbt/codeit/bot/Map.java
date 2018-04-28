@@ -96,7 +96,12 @@ public class Map {
 
   void detectBullets(Map prevMap) {
     // TODO
+    List<Bullet> result = new ArrayList<>();
+    for (Point p : bullets) {
+      for (Point pp : prevMap.bullets) {
 
+      }
+    }
   }
 
   

@@ -1,11 +1,6 @@
 package com.sbt.codeit.bot;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Map {
   int n;
@@ -225,8 +220,26 @@ public class Map {
           next.mines.add(p);
         }
       }
+
       extrapolateEnemy(prev, next);
       next.walls = prev.walls;
+
+      for (int j = 0; j < n; j++) {
+        for (int k = 0; k < m; k++) {
+        	if (next.walls[j][k]) {
+						Boat dummy = new Boat(new Point(j, k), '1');
+						Iterator<Bullet> it = next.bullets.iterator();
+						while (it.hasNext()) {
+							if (isShoot(it.next(), dummy)) {
+								walls[j][k] = false;
+								it.remove();
+								break;
+							}
+						}
+					}
+        }
+      }
+
       next.myBase = prev.myBase;
       next.notMyBase = prev.notMyBase;
       this.next.add(next);

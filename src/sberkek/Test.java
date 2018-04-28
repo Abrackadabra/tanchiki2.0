@@ -7,5 +7,6 @@ public class Test {
     System.out.println("hi");
     Logger.info("priv");
     Logger.info("test");
+    Logger.info("test");
   }
 }

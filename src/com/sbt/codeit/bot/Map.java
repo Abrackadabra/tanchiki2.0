@@ -108,10 +108,13 @@ public class Map {
   }
 
   void detectEverything(Map prevMap) {
-    notMyBoat.d = Direction.NONE;
-    for (Direction direction : Direction.values()) {
-      if (prevMap.notMyBoat.p.add(direction).equals(notMyBoat.p)) {
-        notMyBoat.d = direction;
+    if (notMyBoat != null) {
+
+      notMyBoat.d = Direction.NONE;
+      for (Direction direction : Direction.values()) {
+        if (prevMap.notMyBoat.p.add(direction).equals(notMyBoat.p)) {
+          notMyBoat.d = direction;
+        }
       }
     }
 

@@ -59,6 +59,16 @@ public class Bot implements ServerListener {
 
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
+    if (tick == 0) {
+      info("sleeping");
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+
     try {
       info("Start of tick", tick);
 

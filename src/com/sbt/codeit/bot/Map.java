@@ -73,8 +73,6 @@ public class Map {
         }
       }
     }
-
-    extrapolate();
   }
 
   public String toString() {
@@ -172,7 +170,7 @@ public class Map {
     return dir.reverse();
   }
 
-  private void extrapolate() {
+  void extrapolate() {
     next.add(this);
     for (int i = 1; i < MAX_STEP; i++) {
       Map prev = next.get(i - 1);

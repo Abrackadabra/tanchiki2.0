@@ -148,10 +148,28 @@ public class Map {
       Point p = queue.poll();
       int d = distances.get(p);
 
+      Map extr = getExtrapolated(d);
+
       for (Direction direction : Direction.values()) {
         Point q = p.add(direction);
 
         if (!isInside(q)) {
+          continue;
+        }
+
+        boolean ok = true;
+        for (Bullet bullet : extr.bullets) {
+          if (bullet.p.equals(q)) {
+            ok = false;
+          }
+        }
+        for (Point mine : extr.mines) {
+          if (mine.equals(q)) {
+            ok = false;
+          }
+        }
+
+        if (!ok) {
           continue;
         }
 

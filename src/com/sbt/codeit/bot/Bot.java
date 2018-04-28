@@ -33,6 +33,7 @@ public class Bot implements ServerListener {
   }
 
   int tick = 0;
+  
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
     info("Start of tick", tick);

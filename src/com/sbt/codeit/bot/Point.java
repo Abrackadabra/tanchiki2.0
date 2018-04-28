@@ -52,6 +52,24 @@ public class Point {
   }
 
   public Direction whereToLook(Point o) {
-    return null;
+    Direction result = null;
+    if (this.x == o.x) {
+      if (this.y > o.y) {
+        result = Direction.DOWN;
+      } else {
+        result = Direction.UP;
+      }
+    }
+    if (this.y == o.y) {
+      if (this.x > o.x) {
+        result = Direction.LEFT;
+      } else {
+        result = Direction.RIGHT;
+      }
+    }
+    if (this.equals(o)) {
+      result = null;
+    }
+    return result;
   }
 }

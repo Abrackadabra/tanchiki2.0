@@ -3,11 +3,9 @@ package com.sbt.codeit.bot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 
 public class Map {
   int n;
@@ -108,27 +106,28 @@ public class Map {
   }
 
   void detectEverything(Map prevMap) {
-    // TODO
-    if (prevMap.notMyBoat.p.mDistance(notMyBoat.p) > 1) {
-      // Челик респавнулся – направление хз
-    } else {
-      notMyBoat.d.dx = prevMap.notMyBoat.p.dx(notMyBoat.p);
-      notMyBoat.d.dy = prevMap.notMyBoat.p.dy(notMyBoat.p);
+    notMyBoat.d = Direction.NONE;
+    for (Direction direction : Direction.values()) {
+      if (prevMap.notMyBoat.p.add(direction).equals(notMyBoat.p)) {
+        notMyBoat.d = direction;
+      }
     }
 
     Map extr = prevMap.getExtrapolated(1);
-    Set<Bullet> newBulletsOld = new HashSet<>(extr.bullets);
-    Set<Bullet> newBulletsCur = new HashSet<>(bullets);
-    for (Bullet b : extr.bullets) {
-      for (Bullet bb : bullets) {
-        if (b.equals(bb) && b.d != Direction.NONE) {
-          newBulletsOld.remove(b);
-          newBulletsCur.remove(b);
+    for (Bullet eb : extr.bullets) {
+      for (Bullet b : bullets) {
+        if (b.p.equals(eb.p)) {
+          b.d = eb.d;
+        }
+
+        if (eb.d == Direction.NONE && b.d == Direction.NONE) {
+          for (Direction direction : Direction.values()) {
+            if (eb.p.add(direction).add(direction).equals(b.p)) {
+              b.d = direction;
+            }
+          }
         }
       }
-    }
-    for (Bullet b : newBulletsOld) {
-      
     }
   }
 
@@ -179,7 +178,7 @@ public class Map {
     return dir.reverse();
   }
 
-  private void extrapolate() {
+  void extrapolate() {
     next.clear();
     next.add(this);
     for (int i = 1; i < MAX_STEP; i++) {
@@ -210,7 +209,7 @@ public class Map {
     }
   }
 
-  private boolean isShoot(Bullet bullet, Boat enemy) {
+  boolean isShoot(Bullet bullet, Boat enemy) {
     // TODO: 4/28/2018
     return true;
   }
@@ -220,25 +219,24 @@ public class Map {
   }
 
 
-
-  private void extrapolateEnemy(Map prev, Map next) {
+  void extrapolateEnemy(Map prev, Map next) {
     Boat notMyBoat = prev.notMyBoat;
     Point nextEnemyPoint = (notMyBoat.d == null ? this.notMyBoat.p : notMyBoat.p.add(notMyBoat.d));
     if (isInside(nextEnemyPoint)) {
-			Boat nextEnemyBoat = null;
-			if (notMyBoat.d == null) {
-				nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
-			} else {
-				nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
-			}
-			next.notMyBoat = nextEnemyBoat;
-		} else {
-			Point nextEnemy = new Point(notMyBoat.p.x, notMyBoat.p.y);
-			next.notMyBoat = new Boat(nextEnemy, notMyBoat.id);
-		}
+      Boat nextEnemyBoat = null;
+      if (notMyBoat.d == null) {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
+      } else {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
+      }
+      next.notMyBoat = nextEnemyBoat;
+    } else {
+      Point nextEnemy = new Point(notMyBoat.p.x, notMyBoat.p.y);
+      next.notMyBoat = new Boat(nextEnemy, notMyBoat.id);
+    }
   }
 
-  private Bullet extrapolateBullet(Bullet prev) {
+  Bullet extrapolateBullet(Bullet prev) {
     return new Bullet(prev.p.add(prev.d), prev.d);
   }
 

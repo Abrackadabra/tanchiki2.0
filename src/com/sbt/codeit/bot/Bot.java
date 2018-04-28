@@ -39,36 +39,42 @@ public class Bot implements ServerListener {
 
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
-    info("Start of tick", tick);
+    try {
+      info("Start of tick", tick);
 
-    ////////////////////////////////////////////// init
+      ////////////////////////////////////////////// init
 
-    prevMap = map;
-    map = new Map(arrayList, ourBaseSymbol, ourTankSymbol);
+      prevMap = map;
+      map = new Map(arrayList, ourBaseSymbol, ourTankSymbol);
 
-    map.bfs();
-    map.detectEverything(prevMap);
+      map.bfs();
+      map.extrapolate();
+      map.detectEverything(prevMap);
 
-    ////////////////////////////////////////////// logic
+
+      ////////////////////////////////////////////// logic
 
 
-    controller.start(this); //начинаем ехать сразу и больше не останавливаемся
-    if (tick % 10 == 0) {
-      controller.right(this); //поворачиваем направо
+      controller.start(this); //начинаем ехать сразу и больше не останавливаемся
+      if (tick % 10 == 0) {
+        controller.right(this); //поворачиваем направо
+      }
+      if (tick % 10 == 5) {
+        controller.left(this); //поворачиваем направо
+      }
+      if (tick % 10 == 7) {
+        controller.putMine(this);
+        info("put mine");
+      }
+
+
+      ////////////////////////////////////////////// update
+
+      tick++;
+      cooldown = Math.max(0, cooldown - 1);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    if (tick % 10 == 5) {
-      controller.left(this); //поворачиваем направо
-    }
-    if (tick % 10 == 7) {
-      controller.putMine(this);
-      info("put mine");
-    }
-
-
-    ////////////////////////////////////////////// update
-
-    tick++;
-    cooldown = Math.max(0, cooldown - 1);
   }
 
 //  String myName = "Sberkek strikes back " + randomName();

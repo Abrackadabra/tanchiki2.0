@@ -35,6 +35,9 @@ public class Map {
         && p.y >= 0 && p.y < m;
   }
 
+  public Map() {
+  }
+
   public Map(ArrayList<ArrayList<Character>> map, Character baseId, Character id) {
 
     this.n = map.size();
@@ -72,8 +75,6 @@ public class Map {
         }
       }
     }
-
-    extrapolate();
   }
 
   public String toString() {
@@ -179,9 +180,33 @@ public class Map {
   }
 
   private void extrapolate() {
-    for (int i = 0; i < MAX_STEP; i++) {
-      //Map next = new Map()
+    next.clear();
+    next.add(this);
+    for (int i = 1; i < MAX_STEP; i++) {
+      Map prev = next.get(i - 1);
+      Map next = new Map();
+      next.n = this.n;
+      next.m = this.m;
+      this.bullets = new ArrayList<>();
+      for (Bullet b: prev.bullets) {
+        Bullet nextB = extrapolateBullet(b);
+        if (isInside(nextB.p)) {
+          this.bullets.add(extrapolateBullet(b));
+        }
+      }
+      Point nextEnemyPoint = (notMyBoat.d == null ? this.notMyBoat.p : notMyBoat.p.add(notMyBoat.d));
+      Boat nextEnemyBoat = null;
+      if (notMyBoat.d == null) {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
+      } else {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
+      }
+      next.notMyBoat = nextEnemyBoat; 
     }
+  }
+
+  private Bullet extrapolateBullet(Bullet prev) {
+    return new Bullet(prev.p.add(prev.d), prev.d);
   }
 
   Map getExtrapolated(int index) {

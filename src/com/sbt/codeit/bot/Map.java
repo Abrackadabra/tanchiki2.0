@@ -73,8 +73,6 @@ public class Map {
         }
       }
     }
-
-    extrapolate();
   }
 
   public String toString() {

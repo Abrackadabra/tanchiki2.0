@@ -213,7 +213,7 @@ public class Map {
       Map next = new Map();
       next.n = this.n;
       next.m = this.m;
-      next.mines = new ArrayList<>(prev.mines);
+      next.mines = new ArrayList<>();
       next.bullets = new ArrayList<>();
       next.escapePoint = prev.escapePoint;
       for (Bullet b : prev.bullets) {

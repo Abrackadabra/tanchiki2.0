@@ -188,11 +188,18 @@ public class Map {
       next.n = this.n;
       next.m = this.m;
       next.mines = new ArrayList<>(prev.mines);
-      this.bullets = new ArrayList<>();
+      next.bullets = new ArrayList<>();
       for (Bullet b: prev.bullets) {
         Bullet nextB = extrapolateBullet(b);
         if (isInside(nextB.p)) {
-          next.bullets.add(extrapolateBullet(b));
+          if (!isShoot(b, notMyBoat)) {
+            next.bullets.add(nextB);
+          }
+        }
+      }
+      for (Point p: prev.mines) {
+        if (!isOnMine(p, prev.notMyBoat)) {
+          next.mines.add(p);
         }
       }
       extrapolateEnemy(prev, next);
@@ -206,6 +213,10 @@ public class Map {
   private boolean isShoot(Bullet bullet, Boat enemy) {
     // TODO: 4/28/2018
     return true;
+  }
+
+  private boolean isOnMine(Point p, Boat boat) {
+    return (p.x == boat.p.x && p.y == boat.p.y);
   }
 
 

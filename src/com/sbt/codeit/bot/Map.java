@@ -173,6 +173,7 @@ public class Map {
   }
 
   private void extrapolate() {
+    next.clear();
     next.add(this);
     for (int i = 1; i < MAX_STEP; i++) {
       Map prev = next.get(i - 1);
@@ -186,7 +187,14 @@ public class Map {
           this.bullets.add(extrapolateBullet(b));
         }
       }
-      //Point enemy = notMyBoat.add(notMyBoat)
+      Point nextEnemyPoint = (notMyBoat.d == null ? this.notMyBoat.p : notMyBoat.p.add(notMyBoat.d));
+      Boat nextEnemyBoat = null;
+      if (notMyBoat.d == null) {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
+      } else {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
+      }
+      next.notMyBoat = nextEnemyBoat; 
     }
   }
 

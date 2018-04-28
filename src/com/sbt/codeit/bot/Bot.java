@@ -17,15 +17,15 @@ public class Bot implements ServerListener {
   }
 
   private GameController controller;
-  private Character ourSymbol;
+  private Character ourTankSymbol;
   private Character ourBaseSymbol;
 
   public Bot(GameController controller) {
     this.controller = controller;
   }
 
-  public void setOurSymbol(Character ourSymbol) {
-    this.ourSymbol = ourSymbol;
+  public void setOurTankSymbol(Character ourTankSymbol) {
+    this.ourTankSymbol = ourTankSymbol;
   }
 
   public void setOurBaseSymbol(Character ourBaseSymbol) {
@@ -33,10 +33,16 @@ public class Bot implements ServerListener {
   }
 
   int tick = 0;
-  
+  Map map;
+  Map prevMap;
+
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
     info("Start of tick", tick);
+
+    prevMap = map;
+    map = new Map(arrayList, ourBaseSymbol, ourTankSymbol);
+
 
     controller.start(this); //начинаем ехать сразу и больше не останавливаемся
     if (tick % 10 == 0) {

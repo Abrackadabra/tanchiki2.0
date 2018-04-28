@@ -24,6 +24,8 @@ public class Map {
   Point notMyBase;
   Boat myBoat;
   Boat notMyBoat;
+  private HashMap<Point, Integer> distances;
+  private HashMap<Point, Direction> dirCameFrom;
 
   public boolean isInside(Point p) {
     return p.x >= 0 && p.x < n
@@ -106,29 +108,63 @@ public class Map {
     
   }
 
-  Direction whichWayToGoTo(Point start, Point end) {
-    HashMap<Point, Integer> distances = new HashMap<>();
+  void bfs() {
+    Point start = myBoat;
+
+    distances = new HashMap<>();
+    dirCameFrom = new HashMap<>();
     Queue<Point> queue = new LinkedList<>();
 
     queue.add(start);
+    distances.put(start, 0);
+    dirCameFrom.put(start, null);
 
-    // TODO
+    while (!queue.isEmpty()) {
+      Point p = queue.poll();
+      int d = distances.get(p);
 
-    return null;
+      for (Direction direction : Direction.values()) {
+        Point q = p.add(direction);
+
+        if (!isInside(q)) {
+          continue;
+        }
+
+        if (!distances.containsKey(q)) {
+          distances.put(q, d + 1);
+          dirCameFrom.put(q, direction.reverse());
+          queue.add(q);
+        }
+      }
+    }
+  }
+
+  Direction whichWayToGoTo(Point target) {
+    if (!distances.containsKey(target)) {
+      throw new IllegalArgumentException("unreachable " + target);
+    }
+
+    Point t = target;
+    Direction dir = null;
+
+    while (distances.get(t) > 0) {
+      dir = dirCameFrom.get(t);
+      t = t.add(dir);
+    }
+
+    return dir.reverse();
   }
 
   private void extrapolate() {
     for (int i = 0; i < MAX_STEP; i++) {
-
+      //Map next = new Map()
     }
   }
 
   Map getExtrapolated(int index) {
     if (index < 0 || index >= MAX_STEP) {
-      return null;
+      throw new IndexOutOfBoundsException("Extrapolated map out of bound");
     }
     return next.get(index);
   }
-
-
 }

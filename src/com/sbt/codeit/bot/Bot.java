@@ -19,6 +19,7 @@ public class Bot implements ServerListener {
   private GameController controller;
   private Character ourTankSymbol;
   private Character ourBaseSymbol;
+  private int cooldown = 0;
 
   public Bot(GameController controller) {
     this.controller = controller;
@@ -40,8 +41,15 @@ public class Bot implements ServerListener {
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
     info("Start of tick", tick);
 
+    ////////////////////////////////////////////// init
+
     prevMap = map;
     map = new Map(arrayList, ourBaseSymbol, ourTankSymbol);
+
+    map.bfs();
+    map.detectEverything(prevMap);
+
+    ////////////////////////////////////////////// logic
 
 
     controller.start(this); //начинаем ехать сразу и больше не останавливаемся
@@ -55,11 +63,12 @@ public class Bot implements ServerListener {
       controller.putMine(this);
       info("put mine");
     }
-    
 
-//    controller.fire(this); //стреляем всегда, когда это возможно
+
+    ////////////////////////////////////////////// update
 
     tick++;
+    cooldown = Math.max(0, cooldown - 1);
   }
 
 //  String myName = "Sberkek strikes back " + randomName();
@@ -75,5 +84,14 @@ public class Bot implements ServerListener {
 
   public String getName() {
     return myName;
+  }
+
+  public boolean canShoot() {
+    return cooldown == 0;
+  }
+
+  void shoot() throws RemoteException {
+    controller.fire(this);
+    cooldown = 10;
   }
 }

@@ -5,6 +5,7 @@ import com.sbt.codeit.core.control.ServerListener;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Bot implements ServerListener {
 
@@ -54,6 +55,8 @@ public class Bot implements ServerListener {
     }
   }
 
+  Random random = new Random();
+
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
     try {
@@ -63,6 +66,10 @@ public class Bot implements ServerListener {
 
       prevMap = map;
       map = new Map(arrayList, ourBaseSymbol, ourTankSymbol);
+
+      if (prevMap != null) {
+        map.escapePoint = prevMap.escapePoint;
+      }
 
       map.bfs();
       map.extrapolate();
@@ -103,9 +110,18 @@ public class Bot implements ServerListener {
         rotateSelf(whereToLook);
         controller.fire(this);
         cooldown = 10;
+
+        ArrayList<Point> points = new ArrayList<>(map.distances.keySet());
+        map.escapePoint = points.get(random.nextInt(points.size()));
       }
 
-      if (cooldown)
+      if (cooldown < 5) {
+        controller.start(this);
+        rotateSelf(map.whichWayToGoTo(closestReachable));
+      } else {
+        controller.start(this);
+        rotateSelf(map.whichWayToGoTo(map.escapePoint));
+      }
 
 
       ////////////////////////////////////////////// update

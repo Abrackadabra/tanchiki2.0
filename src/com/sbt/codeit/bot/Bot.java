@@ -8,31 +8,39 @@ import java.util.ArrayList;
 
 public class Bot implements ServerListener {
 
-    private GameController controller;
-    private Character id;
-    private Character baseId;
+  private GameController controller;
+  private Character id;
+  private Character baseId;
 
-    public Bot(GameController controller) {
-        this.controller = controller;
+  public Bot(GameController controller) {
+    this.controller = controller;
+  }
+
+  public void setId(Character id) {
+    this.id = id;
+  }
+
+  public void setBaseId(Character baseId) {
+    this.baseId = baseId;
+  }
+
+  public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
+    //TODO Разместите свой код здесь. Пример вызова методов:
+    controller.start(this); //начинаем ехать сразу и больше не останавливаемся
+    controller.right(this); //поворачиваем направо
+    controller.fire(this); //стреляем всегда, когда это возможно
+  }
+
+  public String randomName() {
+    String s = "";
+    for (int i = 0; i < 10; i++) {
+      s += (char) ('0' + Math.random() * 10);
     }
+    return s;
+  }
 
-    public void setId(Character id) {
-        this.id = id;
-    }
-
-    public void setBaseId(Character baseId) {
-        this.baseId = baseId;
-    }
-
-    public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
-        //TODO Разместите свой код здесь. Пример вызова методов:
-        controller.start(this); //начинаем ехать сразу и больше не останавливаемся
-        controller.right(this); //поворачиваем направо
-        controller.fire(this); //стреляем всегда, когда это возможно
-    }
-
-    public String getName() {
+  public String getName() {
 //        return "Сберкек наносит ответный удар";
-        return "Sberkek strikes back";
-    }
+    return "Sberkek strikes back " + randomName();
+  }
 }

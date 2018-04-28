@@ -81,9 +81,9 @@ public class Bot implements ServerListener {
         map.escapePoint = prevMap.escapePoint;
       }
 
-      map.bfs();
       map.extrapolate();
       map.detectEverything(prevMap);
+      map.bfs();
 
 
       ////////////////////////////////////////////// logic
@@ -101,36 +101,38 @@ public class Bot implements ServerListener {
 //        info("put mine");
 //      }
 
-      Point notMyBase = map.notMyBase;
+      if (map.notMyBase != null) {
 
-      Point closestReachable = null;
+        Point closestReachable = null;
 
-      for (java.util.Map.Entry<Point, Integer> pointIntegerEntry : map.distances.entrySet()) {
-        Point p = pointIntegerEntry.getKey();
-        int dist = pointIntegerEntry.getValue();
+        for (java.util.Map.Entry<Point, Integer> pointIntegerEntry : map.distances.entrySet()) {
+          Point p = pointIntegerEntry.getKey();
+          int dist = pointIntegerEntry.getValue();
 
-        if (closestReachable == null || closestReachable.mDistance(notMyBase) > p.mDistance(notMyBase)) {
-          closestReachable = p;
+          if (closestReachable == null
+              || closestReachable.mDistance(map.notMyBase) > p.mDistance(map.notMyBase)) {
+            closestReachable = p;
+          }
         }
-      }
 
-      Direction whereToLook = map.myBoat.p.whereToLook(map.notMyBase);
+        Direction whereToLook = map.myBoat.p.whereToLook(map.notMyBase);
 
-      if (whereToLook != null && cooldown == 0) {
-        rotateSelf(whereToLook);
-        controller.fire(this);
-        cooldown = 10;
+        if (whereToLook != null && cooldown == 0) {
+          rotateSelf(whereToLook);
+          controller.fire(this);
+          cooldown = 10;
 
-        ArrayList<Point> points = new ArrayList<>(map.distances.keySet());
-        map.escapePoint = points.get(random.nextInt(points.size()));
-      }
+          ArrayList<Point> points = new ArrayList<>(map.distances.keySet());
+          map.escapePoint = points.get(random.nextInt(points.size()));
+        }
 
-      if (cooldown < 5) {
-        controller.start(this);
-        rotateSelf(map.whichWayToGoTo(closestReachable));
-      } else {
-        controller.start(this);
-        rotateSelf(map.whichWayToGoTo(map.escapePoint));
+        if (cooldown < 5) {
+          controller.start(this);
+          rotateSelf(map.whichWayToGoTo(closestReachable));
+        } else {
+          controller.start(this);
+          rotateSelf(map.whichWayToGoTo(map.escapePoint));
+        }
       }
 
 

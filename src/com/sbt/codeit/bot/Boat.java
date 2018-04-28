@@ -2,7 +2,7 @@ package com.sbt.codeit.bot;
 
 public class Boat {
   Point p;
-  Direction d;
+  Direction d = Direction.NONE;
   Character id;
 
   Boat(Point p, Direction d, Character id) {

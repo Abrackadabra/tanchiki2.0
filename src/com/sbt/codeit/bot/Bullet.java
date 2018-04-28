@@ -2,7 +2,7 @@ package com.sbt.codeit.bot;
 
 public class Bullet {
   Point p;
-  Direction d;
+  Direction d = Direction.NONE;
 
   Bullet(Point p) {
     this.p = p;
@@ -15,5 +15,12 @@ public class Bullet {
   
   public boolean hasDirection() {
     return d != null;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    return  (p.equals(((Bullet)o).p) && d == ((Bullet)o).d);
   }
 }

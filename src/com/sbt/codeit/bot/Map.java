@@ -106,7 +106,20 @@ public class Map {
 
   void detectEverything(Map prevMap) {
     // TODO
+    if (prevMap.notMyBoat.p.mDistance(notMyBoat.p) > 1) {
+      // Челик респавнулся – направление хз
+    } else {
+      notMyBoat.d.dx = prevMap.notMyBoat.p.dx(notMyBoat.p);
+      notMyBoat.d.dy = prevMap.notMyBoat.p.dy(notMyBoat.p);
+    }
+
+    Map extr = prevMap.getExtrapolated(1);
     
+    for (Bullet b : extr.bullets) {
+      for (Bullet bb : bullets) {
+
+      }
+    }
   }
 
   void bfs() {

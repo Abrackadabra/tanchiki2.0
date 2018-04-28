@@ -24,6 +24,7 @@ public class Map {
   Point notMyBase;
   Boat myBoat;
   Boat notMyBoat;
+
   private HashMap<Point, Integer> distances;
   private HashMap<Point, Direction> dirCameFrom;
 
@@ -109,7 +110,7 @@ public class Map {
   }
 
   void bfs() {
-    Point start = myBoat;
+    Point start = myBoat.p;
 
     distances = new HashMap<>();
     dirCameFrom = new HashMap<>();

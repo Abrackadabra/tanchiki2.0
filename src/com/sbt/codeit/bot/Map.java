@@ -11,6 +11,10 @@ public class Map {
   List<Point> bullets = new ArrayList<>();
   List<Point> heals = new ArrayList<>();
   List<Point> mines = new ArrayList<>();
+  Character myBaseId;
+  Character myId;
+  Character notMyBaseId;
+  Character notMyId;
   Point myBase;
   Point notMyBase;
   Point myBoat;
@@ -20,6 +24,9 @@ public class Map {
 
     this.n = map.size();
     this.m = map.get(0).size();
+
+    myId = id;
+    myBaseId = baseId;
 
     walls = new boolean[n][m];
 
@@ -39,6 +46,7 @@ public class Map {
           myBoat = new Point(i, j);
         } else if ('0' <= c && c <= '9') {
           notMyBoat = new Point(i, j);
+          notMyId = c;
         }
 
         if (c == 'H') {
@@ -49,6 +57,7 @@ public class Map {
           myBase = new Point(i, j);
         } else if ('A' <= c && c <= 'Z') {
           notMyBase = new Point(i, j);
+          notMyBaseId = c;
         }
       }
     }
@@ -72,10 +81,10 @@ public class Map {
     for (Point p : mines) {
       map[p.x][p.y] = 'X';
     }
-    map[myBase.x][myBase.y] = 'A';
-    map[notMyBase.x][notMyBase.y] = 'Z';
-    map[myBoat.x][myBoat.y] = '0';
-    map[notMyBoat.x][notMyBoat.y] = '9';
+    map[myBase.x][myBase.y] = myBaseId;
+    map[notMyBase.x][notMyBase.y] = notMyBaseId;
+    map[myBoat.x][myBoat.y] = myId;
+    map[notMyBoat.x][notMyBoat.y] = notMyId;
 
     String result = "";
     for (int i = 0; i < n; i++) {

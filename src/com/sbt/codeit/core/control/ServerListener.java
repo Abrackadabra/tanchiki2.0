@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public interface ServerListener extends Remote {
 
-    /**
-     * Сервер будет вызывать на клиенте этот метод, передавая текущее состояние игрового поля
-     */
-    void update(ArrayList<ArrayList<Character>> field) throws RemoteException;
+  /**
+   * Сервер будет вызывать на клиенте этот метод, передавая текущее состояние игрового поля
+   */
+  void update(ArrayList<ArrayList<Character>> field) throws RemoteException;
 
 }

@@ -26,6 +26,8 @@ public class Map {
   Point notMyBase;
   Point myBoat;
   Point notMyBoat;
+  private HashMap<Point, Integer> distances;
+  private HashMap<Point, Direction> dirCameFrom;
 
   public boolean isInside(Point p) {
     return p.x >= 0 && p.x < n
@@ -112,9 +114,11 @@ public class Map {
 
   }
 
-  Direction whichWayToGoTo(Point start, Point end) {
-    HashMap<Point, Integer> distances = new HashMap<>();
-    HashMap<Point, Direction> dirCameFrom = new HashMap<>();
+  void bfs() {
+    Point start = myBoat;
+
+    distances = new HashMap<>();
+    dirCameFrom = new HashMap<>();
     Queue<Point> queue = new LinkedList<>();
 
     queue.add(start);
@@ -134,12 +138,27 @@ public class Map {
 
         if (!distances.containsKey(q)) {
           distances.put(q, d + 1);
-          dirCameFrom
+          dirCameFrom.put(q, direction.reverse());
+          queue.add(q);
         }
       }
     }
+  }
 
-    return null;
+  Direction whichWayToGoTo(Point target) {
+    if (!distances.containsKey(target)) {
+      throw new IllegalArgumentException("unreachable " + target);
+    }
+
+    Point t = target;
+    Direction dir = null;
+
+    while (distances.get(t) > 0) {
+      dir = dirCameFrom.get(t);
+      t = t.add(dir);
+    }
+
+    return dir.reverse();
   }
 
   private void extrapolate() {

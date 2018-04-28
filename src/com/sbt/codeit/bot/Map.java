@@ -1,6 +1,7 @@
 package com.sbt.codeit.bot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Map {
@@ -88,7 +89,7 @@ public class Map {
 
     String result = "";
     for (int i = 0; i < n; i++) {
-      result += map[i].toString() + '\n';
+      result += Arrays.toString(map[i]) + '\n';
     }
     return result;
   }
@@ -96,5 +97,7 @@ public class Map {
   void detectBullets(Map prevMap) {
     // TODO
   }
+
+  
 
 }

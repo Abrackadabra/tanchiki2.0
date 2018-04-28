@@ -5,6 +5,7 @@ import com.sbt.codeit.core.control.ServerListener;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Bot implements ServerListener {
 
@@ -55,17 +56,32 @@ public class Bot implements ServerListener {
       ////////////////////////////////////////////// logic
 
 
-      controller.start(this); //начинаем ехать сразу и больше не останавливаемся
-      if (tick % 10 == 0) {
-        controller.right(this); //поворачиваем направо
+//      controller.start(this); //начинаем ехать сразу и больше не останавливаемся
+//      if (tick % 10 == 0) {
+//        controller.right(this); //поворачиваем направо
+//      }
+//      if (tick % 10 == 5) {
+//        controller.left(this); //поворачиваем направо
+//      }
+//      if (tick % 10 == 7) {
+//        controller.putMine(this);
+//        info("put mine");
+//      }
+
+      Point notMyBase = map.notMyBase;
+
+      Point closestReachable = null;
+
+      for (java.util.Map.Entry<Point, Integer> pointIntegerEntry : map.distances.entrySet()) {
+        Point p = pointIntegerEntry.getKey();
+        int dist = pointIntegerEntry.getValue();
+
+        if (closestReachable == null || closestReachable.mDistance(notMyBase) > p.mDistance(notMyBase)) {
+          closestReachable = p;
+        }
       }
-      if (tick % 10 == 5) {
-        controller.left(this); //поворачиваем направо
-      }
-      if (tick % 10 == 7) {
-        controller.putMine(this);
-        info("put mine");
-      }
+
+      if ()
 
 
       ////////////////////////////////////////////// update

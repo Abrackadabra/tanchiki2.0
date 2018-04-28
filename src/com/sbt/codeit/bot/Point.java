@@ -50,4 +50,8 @@ public class Point {
     }
     return r;
   }
+
+  public Direction whereToLook(Point o) {
+    return null;
+  }
 }

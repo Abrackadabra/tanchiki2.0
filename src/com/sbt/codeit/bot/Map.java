@@ -25,8 +25,8 @@ public class Map {
   Boat myBoat;
   Boat notMyBoat;
 
-  private HashMap<Point, Integer> distances;
-  private HashMap<Point, Direction> dirCameFrom;
+  HashMap<Point, Integer> distances;
+  HashMap<Point, Direction> dirCameFrom;
 
   public boolean isInside(Point p) {
     return p.x >= 0 && p.x < n
@@ -188,7 +188,7 @@ public class Map {
       next.m = this.m;
       next.mines = new ArrayList<>(prev.mines);
       next.bullets = new ArrayList<>();
-      for (Bullet b: prev.bullets) {
+      for (Bullet b : prev.bullets) {
         Bullet nextB = extrapolateBullet(b);
         if (isInside(nextB.p)) {
           if (!isShoot(b, notMyBoat)) {
@@ -196,7 +196,7 @@ public class Map {
           }
         }
       }
-      for (Point p: prev.mines) {
+      for (Point p : prev.mines) {
         if (!isOnMine(p, prev.notMyBoat)) {
           next.mines.add(p);
         }

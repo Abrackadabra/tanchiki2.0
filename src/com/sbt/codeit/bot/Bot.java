@@ -5,7 +5,6 @@ import com.sbt.codeit.core.control.ServerListener;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class Bot implements ServerListener {
 
@@ -37,6 +36,23 @@ public class Bot implements ServerListener {
   int tick = 0;
   Map map;
   Map prevMap;
+
+  public void rotateSelf(Direction direction) throws RemoteException {
+    switch (direction) {
+      case UP:
+        controller.up(this);
+        break;
+      case DOWN:
+        controller.down(this);
+        break;
+      case LEFT:
+        controller.left(this);
+        break;
+      case RIGHT:
+        controller.right(this);
+        break;
+    }
+  }
 
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
@@ -81,7 +97,15 @@ public class Bot implements ServerListener {
         }
       }
 
-      if ()
+      Direction whereToLook = map.myBoat.p.whereToLook(map.notMyBase);
+
+      if (whereToLook != null && cooldown == 0) {
+        rotateSelf(whereToLook);
+        controller.fire(this);
+        cooldown = 10;
+      }
+
+      if (cooldown)
 
 
       ////////////////////////////////////////////// update
@@ -93,7 +117,7 @@ public class Bot implements ServerListener {
     }
   }
 
-//  String myName = "Sberkek strikes back " + randomName();
+  //  String myName = "Sberkek strikes back " + randomName();
   String myName = "Sksb" + randomName();
 
   public String randomName() {

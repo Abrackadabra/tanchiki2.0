@@ -25,6 +25,8 @@ public class Map {
   Boat myBoat;
   Boat notMyBoat;
 
+  Point escapePoint;
+
   HashMap<Point, Integer> distances;
   HashMap<Point, Direction> dirCameFrom;
 
@@ -188,6 +190,7 @@ public class Map {
       next.m = this.m;
       next.mines = new ArrayList<>(prev.mines);
       next.bullets = new ArrayList<>();
+      next.escapePoint = prev.escapePoint;
       for (Bullet b : prev.bullets) {
         Bullet nextB = extrapolateBullet(b);
         if (isInside(nextB.p)) {

@@ -1,4 +1,4 @@
-package sberkek;
+package com.sbt.codeit.bot;
 
 import java.util.Objects;
 

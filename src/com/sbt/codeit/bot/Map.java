@@ -96,6 +96,7 @@ public class Map {
 
   void detectBullets(Map prevMap) {
     // TODO
+
   }
 
 }

@@ -29,10 +29,13 @@ public class Bot implements ServerListener {
   int tick = 0;
 
   public void update(ArrayList<ArrayList<Character>> arrayList) throws RemoteException {
-    //TODO Разместите свой код здесь. Пример вызова методов:
+
     controller.start(this); //начинаем ехать сразу и больше не останавливаемся
-    if (tick % 5 == 0) {
+    if (tick % 10 == 0) {
       controller.right(this); //поворачиваем направо
+    }
+    if (tick % 10 == 5) {
+      controller.left(this); //поворачиваем направо
     }
 //    controller.fire(this); //стреляем всегда, когда это возможно
 

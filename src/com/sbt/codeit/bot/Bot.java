@@ -133,6 +133,11 @@ public class Bot implements ServerListener {
           controller.start(this);
           rotateSelf(map.whichWayToGoTo(map.escapePoint));
         }
+
+        if (cooldown == 0) {
+          controller.fire(this);
+          cooldown = 10;
+        }
       }
 
 

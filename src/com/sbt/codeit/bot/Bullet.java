@@ -8,4 +8,8 @@ public class Bullet {
     this.p = p;
     this.d = d;
   }
+
+  public boolean hasDirection() {
+    return d != null;
+  }
 }

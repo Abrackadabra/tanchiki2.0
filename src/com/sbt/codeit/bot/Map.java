@@ -276,14 +276,9 @@ public class Map {
 
   void extrapolateEnemy(Map prev, Map next) {
     Boat notMyBoat = prev.notMyBoat;
-    Point nextEnemyPoint = (notMyBoat.d == null ? this.notMyBoat.p : notMyBoat.p.add(notMyBoat.d));
+    Point nextEnemyPoint = notMyBoat.p.add(prev.notMyBoat.d);
     if (isInside(nextEnemyPoint)) {
-      Boat nextEnemyBoat = null;
-      if (notMyBoat.d == null) {
-        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
-      } else {
-        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
-      }
+      Boat nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
       next.notMyBoat = nextEnemyBoat;
     } else {
       Point nextEnemy = new Point(notMyBoat.p.x, notMyBoat.p.y);

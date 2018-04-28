@@ -8,10 +8,13 @@ public class Map {
   int n;
   int m;
 
+  public static int MAX_STEP = 100;
+
   boolean[][] walls;
   List<Point> bullets = new ArrayList<>();
   List<Point> heals = new ArrayList<>();
   List<Point> mines = new ArrayList<>();
+  List<Map> next = new ArrayList<>();
   Character myBaseId;
   Character myId;
   Character notMyBaseId;
@@ -62,6 +65,8 @@ public class Map {
         }
       }
     }
+
+    extrapolate();
   }
 
   public String toString() {
@@ -96,6 +101,19 @@ public class Map {
 
   void detectBullets(Map prevMap) {
     // TODO
+  }
+
+  private void extrapolate() {
+    for (int i = 0; i < MAX_STEP; i++) {
+
+    }
+  }
+
+  Map getExtrapolated(int index) {
+    if (index < 0 || index >= MAX_STEP) {
+      return null;
+    }
+    return next.get(index);
   }
 
   

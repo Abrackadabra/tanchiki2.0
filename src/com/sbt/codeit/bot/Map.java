@@ -18,14 +18,13 @@ public class Map {
   List<Point> heals = new ArrayList<>();
   List<Point> mines = new ArrayList<>();
   List<Map> next = new ArrayList<>();
-  Character myBaseId;
-  Character myId;
   Character notMyBaseId;
-  Character notMyId;
+  Character myBaseId;
   Point myBase;
   Point notMyBase;
-  Point myBoat;
-  Point notMyBoat;
+  Boat myBoat;
+  Boat notMyBoat;
+
   private HashMap<Point, Integer> distances;
   private HashMap<Point, Direction> dirCameFrom;
 
@@ -42,9 +41,6 @@ public class Map {
     this.n = map.size();
     this.m = map.get(0).size();
 
-    myId = id;
-    myBaseId = baseId;
-
     walls = new boolean[n][m];
 
     for (int i = 0; i < n; i++) {
@@ -60,10 +56,9 @@ public class Map {
         }
 
         if (c == id) {
-          myBoat = new Point(i, j);
+          myBoat = new Boat(new Point(i, j), c);
         } else if ('0' <= c && c <= '9') {
-          notMyBoat = new Point(i, j);
-          notMyId = c;
+          notMyBoat = new Boat(new Point(i, j), c);
         }
 
         if (c == 'H') {
@@ -102,8 +97,8 @@ public class Map {
     }
     map[myBase.x][myBase.y] = myBaseId;
     map[notMyBase.x][notMyBase.y] = notMyBaseId;
-    map[myBoat.x][myBoat.y] = myId;
-    map[notMyBoat.x][notMyBoat.y] = notMyId;
+    map[myBoat.p.x][myBoat.p.y] = myBoat.id;
+    map[notMyBoat.p.x][notMyBoat.p.y] = notMyBoat.id;
 
     String result = "";
     for (int i = 0; i < n; i++) {
@@ -114,11 +109,24 @@ public class Map {
 
   void detectEverything(Map prevMap) {
     // TODO
+    if (prevMap.notMyBoat.p.mDistance(notMyBoat.p) > 1) {
+      // Челик респавнулся – направление хз
+    } else {
+      notMyBoat.d.dx = prevMap.notMyBoat.p.dx(notMyBoat.p);
+      notMyBoat.d.dy = prevMap.notMyBoat.p.dy(notMyBoat.p);
+    }
 
+    Map extr = prevMap.getExtrapolated(1);
+    
+    for (Bullet b : extr.bullets) {
+      for (Bullet bb : bullets) {
+
+      }
+    }
   }
 
   void bfs() {
-    Point start = myBoat;
+    Point start = myBoat.p;
 
     distances = new HashMap<>();
     dirCameFrom = new HashMap<>();

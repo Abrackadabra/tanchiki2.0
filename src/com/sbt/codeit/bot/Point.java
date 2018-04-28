@@ -27,6 +27,14 @@ public class Point {
     return Objects.hash(x, y);
   }
 
+  public int dx(Point o) {
+    return o.x - x;
+  }
+
+  public int dy(Point o) {
+    return o.y - y;
+  }
+
   public int mDistance(Point o) {
     return Math.abs(x - o.x) + Math.abs(y - o.y);
   }

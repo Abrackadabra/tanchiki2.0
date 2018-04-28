@@ -178,7 +178,7 @@ public class Map {
     return dir.reverse();
   }
 
-  private void extrapolate() {
+  void extrapolate() {
     next.clear();
     next.add(this);
     for (int i = 1; i < MAX_STEP; i++) {
@@ -188,7 +188,7 @@ public class Map {
       next.m = this.m;
       next.mines = new ArrayList<>(prev.mines);
       this.bullets = new ArrayList<>();
-      for (Bullet b: prev.bullets) {
+      for (Bullet b : prev.bullets) {
         Bullet nextB = extrapolateBullet(b);
         if (isInside(nextB.p)) {
           next.bullets.add(extrapolateBullet(b));
@@ -202,31 +202,30 @@ public class Map {
     }
   }
 
-  private boolean isShoot(Bullet bullet, Boat enemy) {
+  boolean isShoot(Bullet bullet, Boat enemy) {
     // TODO: 4/28/2018
     return true;
   }
 
 
-
-  private void extrapolateEnemy(Map prev, Map next) {
+  void extrapolateEnemy(Map prev, Map next) {
     Boat notMyBoat = prev.notMyBoat;
     Point nextEnemyPoint = (notMyBoat.d == null ? this.notMyBoat.p : notMyBoat.p.add(notMyBoat.d));
     if (isInside(nextEnemyPoint)) {
-			Boat nextEnemyBoat = null;
-			if (notMyBoat.d == null) {
-				nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
-			} else {
-				nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
-			}
-			next.notMyBoat = nextEnemyBoat;
-		} else {
-			Point nextEnemy = new Point(notMyBoat.p.x, notMyBoat.p.y);
-			next.notMyBoat = new Boat(nextEnemy, notMyBoat.id);
-		}
+      Boat nextEnemyBoat = null;
+      if (notMyBoat.d == null) {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.id);
+      } else {
+        nextEnemyBoat = new Boat(nextEnemyPoint, notMyBoat.d, notMyBoat.id);
+      }
+      next.notMyBoat = nextEnemyBoat;
+    } else {
+      Point nextEnemy = new Point(notMyBoat.p.x, notMyBoat.p.y);
+      next.notMyBoat = new Boat(nextEnemy, notMyBoat.id);
+    }
   }
 
-  private Bullet extrapolateBullet(Bullet prev) {
+  Bullet extrapolateBullet(Bullet prev) {
     return new Bullet(prev.p.add(prev.d), prev.d);
   }
 

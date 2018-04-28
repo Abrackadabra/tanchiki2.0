@@ -84,4 +84,8 @@ public class Map {
     return result;
   }
 
+  void detectBullets(Map prevMap) {
+    // TODO
+  }
+
 }

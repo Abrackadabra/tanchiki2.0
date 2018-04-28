@@ -30,7 +30,7 @@ public class Runner {
     Bot bot = new Bot(server);
     client = (ServerListener) UnicastRemoteObject.exportObject(bot, 0);
     Pair<Character, Character> pair = server.register(client, bot.getName());
-    bot.setOurSymbol(pair.getKey());
+    bot.setOurTankSymbol(pair.getKey());
     bot.setOurBaseSymbol(pair.getValue());
     while (true) {
       checkConnection();

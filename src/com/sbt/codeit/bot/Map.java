@@ -103,27 +103,29 @@ public class Map {
   }
 
   void detectEverything(Map prevMap) {
-    if (notMyBoat != null) {
+    if (notMyBoat != null && prevMap != null) {
 
       notMyBoat.d = Direction.NONE;
       for (Direction direction : Direction.values()) {
-        if (prevMap.notMyBoat.p.add(direction).equals(notMyBoat.p)) {
+        if (prevMap.notMyBoat != null && prevMap.notMyBoat.p.add(direction).equals(notMyBoat.p)) {
           notMyBoat.d = direction;
         }
       }
     }
 
-    Map extr = prevMap.getExtrapolated(1);
-    for (Bullet eb : extr.bullets) {
-      for (Bullet b : bullets) {
-        if (b.p.equals(eb.p)) {
-          b.d = eb.d;
-        }
+    if (prevMap != null) {
+      Map extr = prevMap.getExtrapolated(1);
+      for (Bullet eb : extr.bullets) {
+        for (Bullet b : bullets) {
+          if (b.p.equals(eb.p)) {
+            b.d = eb.d;
+          }
 
-        if (eb.d == Direction.NONE && b.d == Direction.NONE) {
-          for (Direction direction : Direction.values()) {
-            if (eb.p.add(direction).add(direction).equals(b.p)) {
-              b.d = direction;
+          if (eb.d == Direction.NONE && b.d == Direction.NONE) {
+            for (Direction direction : Direction.values()) {
+              if (eb.p.add(direction).add(direction).equals(b.p)) {
+                b.d = direction;
+              }
             }
           }
         }
@@ -146,7 +148,10 @@ public class Map {
       Point p = queue.poll();
       int d = distances.get(p);
 
-      Map extr = getExtrapolated(d);
+      Map extr = this;
+      if (d > 0) {
+        extr = getExtrapolated(d);
+      }
 
       for (Direction direction : Direction.values()) {
         Point q = p.add(direction);
@@ -171,6 +176,10 @@ public class Map {
           continue;
         }
 
+        if (extr.walls[q.x][q.y]) {
+          continue;
+        }
+
         if (!distances.containsKey(q)) {
           distances.put(q, d + 1);
           dirCameFrom.put(q, direction.reverse());
@@ -186,7 +195,7 @@ public class Map {
     }
 
     Point t = target;
-    Direction dir = null;
+    Direction dir = Direction.NONE;
 
     while (distances.get(t) > 0) {
       dir = dirCameFrom.get(t);
